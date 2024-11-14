@@ -3,19 +3,24 @@ import random
 import time
 import threading
 
+# creating a lock so with that make sure only one tread can accsess printing
+print_lock = threading.Lock()
+
 # control the time of being on and off 
 def control_fountain(fountain_id, on_time, off_time):
 
     # fountain start in current time and print the giving format
-    start_time = datetime.now().strftime("%H:%M:%S")
-    print(f"Fountain {fountain_id} started in : {start_time}")
+    with print_lock:
+        start_time = datetime.now().strftime("%H:%M:%S")
+        print(f"Fountain {fountain_id} started in : {start_time}")
 
     #sleep the time as being on
     time.sleep(on_time)
 
     # fountain end in current time and print the giving format
-    end_time = datetime.now().strftime("%H:%M:%S")
-    print(f"Fountain {fountain_id} ended in : {end_time}")
+    with print_lock:
+        end_time = datetime.now().strftime("%H:%M:%S")
+        print(f"Fountain {fountain_id} ended in : {end_time}")
     
     #sleep the time as being off
     time.sleep(off_time)
@@ -39,10 +44,29 @@ def sequential_fountains():
     fountain3.join()
 
 
-# def pairs_fountains():
-#     print("\n[ Pairs of Fountains ]")
+def pairs_fountains():
+    print("\n[ Pairs of Fountains ]")
     
+    # creat the pair of fountains that want to start. it includes a tupels that contains fountains id
+    pairs = [(1,2), (1,3), (2,3)]
 
-# sequential_fountains()
+
+    # for each pair creat a same random time for on and off and creat a thread as fountains
+    for pair in pairs:
+        on_time = random.randint(1, 5)
+        off_time = random.randint(1, 5)
+
+        threads = []
+
+        for fountain_id in pair:
+
+            thread = threading.Thread(target=control_fountain, args=(fountain_id, on_time, off_time))
+            threads.append(thread)
+            thread.start()
+    
+        for thread in threads:
+            thread.join()
 
 
+sequential_fountains()
+pairs_fountains()
