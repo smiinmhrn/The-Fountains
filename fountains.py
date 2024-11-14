@@ -31,19 +31,20 @@ def sequential_fountains():
     print("[ Sequential Fountains ]")
     
     # creat 3 treads as fountains and in each treads run the control_fountain fonction and give the fountain id, on time and off time (randomly) as args
-    fountain1 = threading.Thread(target=control_fountain, args=(1, random.randint(1, 5), random.randint(1, 5)))
-    fountain2 = threading.Thread(target=control_fountain, args=(2, random.randint(1, 5), random.randint(1, 5)))
-    fountain3 = threading.Thread(target=control_fountain, args=(3, random.randint(1, 5), random.randint(1, 5)))
+    threads = [
+        threading.Thread(target=control_fountain, args=(1, random.randint(1, 5), random.randint(1, 5))),
+        threading.Thread(target=control_fountain, args=(2, random.randint(1, 5), random.randint(1, 5))),
+        threading.Thread(target=control_fountain, args=(3, random.randint(1, 5), random.randint(1, 5)))
+    ]
 
     # fountain[n].start start the fountain and fountain[n].join() make sure that the first thread do the job and finish and then run the other line
-    fountain1.start()
-    fountain1.join()  
-    fountain2.start()
-    fountain2.join()  
-    fountain3.start()
-    fountain3.join()
+    for thread in threads:
+        thread.start()
+        thread.join()
+    
 
 
+# control the fountains start and end two by two
 def pairs_fountains():
     print("\n[ Pairs of Fountains ]")
     
@@ -66,7 +67,28 @@ def pairs_fountains():
     
         for thread in threads:
             thread.join()
+    
 
+# control the fountains start and end simultaneously
+def all_simultaneously():
 
+    print("\n[ All fountains simultaneously ]")
+
+    on_time = random.randint(1, 5)
+    off_time = random.randint(1, 5)
+
+    threads = [
+        threading.Thread(target=control_fountain, args=(1, on_time, off_time)),
+        threading.Thread(target=control_fountain, args=(2, on_time, off_time)),
+        threading.Thread(target=control_fountain, args=(3, on_time, off_time))
+    ]
+
+    for thread in threads:
+        thread.start()
+    for thread in threads:
+        thread.join()
+
+    
 sequential_fountains()
 pairs_fountains()
+all_simultaneously()
