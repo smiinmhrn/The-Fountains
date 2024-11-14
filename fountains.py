@@ -7,11 +7,9 @@ from itertools import product
 # creating a lock so with that make sure only one thread can access printing
 print_lock = threading.Lock()
 
-# possible colors for fountains
-colors = ["Blue", "Red", "Green"]
-
 # control the time of being on and off and cycles
 def control_fountain(fountain_id, color=None):
+    
     on_time = random.randint(1, 5)
     off_time = random.randint(1, 5)
     cycles = random.randint(1, 3)
@@ -35,6 +33,7 @@ def control_fountain(fountain_id, color=None):
 
         time.sleep(off_time)
 
+
 # control the fountains start and end sequentially
 def sequential_fountains():
     print("[ Sequential Fountains ]")
@@ -50,6 +49,7 @@ def sequential_fountains():
         thread.join()
         print() # to seprate the fountains
 
+
 # control the fountains start and end two by two
 def pairs_fountains():
     print("\n[ Pairs of Fountains ]")
@@ -62,14 +62,18 @@ def pairs_fountains():
             thread = threading.Thread(target=control_fountain, args=(fountain_id,))
             threads.append(thread)
             thread.start()
-
+        
         for thread in threads:
             thread.join()
-            print() # to seprate the combinations
+        print() # to seprate the combinations      
+
 
 # control the fountains start and end simultaneously with all color combinations
 def all_simultaneously():
     print("\n[ All fountains simultaneously with color variations ]")
+
+    # possible colors for fountains
+    colors = ["Blue", "Red", "Green"]
 
     # Generate all 27 possible color combinations for three fountains
     color_combinations = list(product(colors, repeat=3))
@@ -86,7 +90,8 @@ def all_simultaneously():
             thread.start()
         for thread in threads:
             thread.join()
-            print() # to seprate the color combination
+        print() # to seprate the color combination
+
 
 sequential_fountains()
 pairs_fountains()
