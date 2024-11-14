@@ -48,6 +48,7 @@ def sequential_fountains():
     for thread in threads:
         thread.start()
         thread.join()
+        print() # to seprate the fountains
 
 # control the fountains start and end two by two
 def pairs_fountains():
@@ -64,6 +65,7 @@ def pairs_fountains():
 
         for thread in threads:
             thread.join()
+            print() # to seprate the combinations
 
 # control the fountains start and end simultaneously with all color combinations
 def all_simultaneously():
@@ -84,6 +86,7 @@ def all_simultaneously():
             thread.start()
         for thread in threads:
             thread.join()
+            print() # to seprate the color combination
 
 sequential_fountains()
 pairs_fountains()
