@@ -10,11 +10,16 @@ print_lock = threading.Lock()
 # control the time of being on and off and cycles
 def control_fountain(fountain_id, color=None):
     
-    on_time = random.randint(1, 5)
-    off_time = random.randint(1, 5)
     cycles = random.randint(1, 3)
 
-    for _ in range(cycles):
+    for i in range(cycles):
+
+        on_time = random.randint(1, 5)
+        off_time = random.randint(1, 5)
+
+        if i == cycles - 1:
+            off_time = 0
+        
         with print_lock:
             start_time = datetime.now().strftime("%H:%M:%S")
             if color:
