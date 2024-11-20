@@ -73,14 +73,18 @@ def pairs_fountains():
         print() # to seprate the combinations      
 
 
-# control the fountains start and end simultaneously with all color combinations
-def all_simultaneously():
-    print("\n[ All fountains simultaneously with color variations ]")
+# control the fountains start all together and end with color and without it
+def all_simultaneously(use_colors=True):
 
-    # possible colors for fountains
-    colors = ["Blue", "Red", "Green"]
+    if use_colors:
+        print("\n[ All fountains simultaneously with color variations ]")
+    else:
+        print("\n[ All fountains simultaneously ]")
 
-    # Generate all 27 possible color combinations for three fountains
+    # possible colors for fountains if they includes colores
+    colors = ["Blue", "Red", "Green"] if use_colors else [""]
+
+    # Generate all possible combinations for fountains
     color_combinations = list(product(colors, repeat=3))
 
     # Loop through each color combination
@@ -95,9 +99,10 @@ def all_simultaneously():
             thread.start()
         for thread in threads:
             thread.join()
-        print() # to seprate the color combination
+        print()  # to separate the color combination
 
-
+#call the functions
 sequential_fountains()
 pairs_fountains()
+all_simultaneously(False)
 all_simultaneously()
